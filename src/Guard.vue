@@ -21,15 +21,23 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-
-const { password } = defineProps<{ password: string }>();
+const props = defineProps<{ passwordHash: string }>();
 
 const inputPwd = ref("");
 const errorMsg = ref("");
 const isPassed = ref(sessionStorage.getItem("__guard_passed__") === "true");
 
-const verify = () => {
-  if (inputPwd.value === password) {
+async function computeSHA256(message: string) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+const verify = async () => {
+  const inputHash = await computeSHA256(inputPwd.value);
+
+  if (inputHash === props.passwordHash) {
     sessionStorage.setItem("__guard_passed__", "true");
     isPassed.value = true;
     location.reload();
