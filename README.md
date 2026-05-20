@@ -1,5 +1,27 @@
-# Vue 3 + TypeScript + Vite
+# 简易的前端网站密码保护器
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 介绍
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+通过在 Vite 项目中使用 `vite-plugin-guard` 插件,可以轻松地为您的前端网站添加一个简单的密码保护层。这个插件会在用户访问网站时显示一个密码输入界面,只有输入正确的密码后才能访问网站内容。
+
+## 安装
+
+```bash
+pnpm add vite-plugin-guard
+```
+
+## 使用
+
+在 `vite.config.ts` 文件中引入并使用 `vite-plugin-guard` 插件:
+
+```ts
+import { defineConfig } from "vite";
+import guard from "vite-plugin-guard";
+export default defineConfig({
+  plugins: [
+    guard({
+      password: "123", // 设置访问密码
+    }),
+  ],
+});
+```
