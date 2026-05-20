@@ -37,7 +37,7 @@ describe("Guard E2E Test", () => {
     const unlockButton = page.locator("button:has-text('解锁')");
     expect(await passwordInput.isVisible()).toBe(true);
 
-    await passwordInput.fill("wrong_pwd_1234");
+    await passwordInput.fill("wrong_pwd");
     await unlockButton.click();
 
     const errorMsg = page.locator(".error");
@@ -60,5 +60,5 @@ describe("Guard E2E Test", () => {
     await page.reload();
 
     expect(await guardTitle.isVisible()).toBe(false);
-  }, 100000);
+  });
 });

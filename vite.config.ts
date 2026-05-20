@@ -5,5 +5,5 @@ import { defineConfig } from "vitest/config";
 import Guard from "./src/Guard";
 
 export default defineConfig({
-  plugins: [vue(), Guard({ password: "1234" })],
+  plugins: [vue(), Guard({ password: "123456" })],
 });
