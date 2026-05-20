@@ -45,7 +45,10 @@ export default function passwordPlugin(options: PasswordPluginOptions = {}): Plu
 
     transformIndexHtml: {
       order: "pre",
-      handler(html) {
+      handler(html, ctx) {
+        if (ctx.path.includes("tester.html") || ctx.filename?.includes("node_modules")) {
+          return html;
+        }
         const scriptRegex = /<script\s+[^>]*type="module"[^>]*src="([^"]+)"[^>]*><\/script>/i;
         const match = html.match(scriptRegex);
 

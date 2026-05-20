@@ -6,12 +6,4 @@ import Guard from "./src/Guard";
 
 export default defineConfig({
   plugins: [vue(), Guard({ password: "1234" })],
-  test: {
-    browser: {
-      enabled: true,
-      provider: playwright(),
-      instances: [{ browser: "chromium" }],
-      headless: true,
-    },
-  },
 });
