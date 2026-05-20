@@ -34,7 +34,7 @@ const verify = () => {
     isPassed.value = true;
     location.reload();
   } else {
-    errorMsg.value = "❌ 密码错误！";
+    errorMsg.value = "❌ 密码错误!";
     inputPwd.value = "";
   }
 };
