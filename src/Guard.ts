@@ -43,26 +43,29 @@ export default function passwordPlugin(options: PasswordPluginOptions = {}): Plu
       return null;
     },
 
-    transformIndexHtml(html) {
-      const scriptRegex = /<script\s+[^>]*type="module"[^>]*src="([^"]+)"[^>]*><\/script>/i;
-      const match = html.match(scriptRegex);
+    transformIndexHtml: {
+      order: "pre",
+      handler(html) {
+        const scriptRegex = /<script\s+[^>]*type="module"[^>]*src="([^"]+)"[^>]*><\/script>/i;
+        const match = html.match(scriptRegex);
 
-      if (!match) return html;
+        if (!match) return html;
 
-      const originalEntry = match[1];
+        const originalEntry = match[1];
 
-      const replacementScript = `
-    <script type="module">
-      (async () => {
-        if (sessionStorage.getItem('__guard_passed__') === 'true') {
-          await import('${originalEntry}');
-        } else {
-          await import('virtual:password-guard');
-        }
-      })();
-    </script>
-      `.trim();
-      return html.replace(match[0], replacementScript);
+        const replacementScript = `
+      <script type="module">
+        (async () => {
+          if (sessionStorage.getItem('__guard_passed__') === 'true') {
+            await import('${originalEntry}');
+          } else {
+            await import('virtual:password-guard');
+          }
+        })();
+      </script>
+        `.trim();
+        return html.replace(match[0], replacementScript);
+      },
     },
   };
 }
